@@ -6,22 +6,60 @@ void main() {
   runApp(SearchInputInfant());
 }
 
-class SearchInputInfant extends StatelessWidget {
+class SearchInputInfant extends StatefulWidget {
   const SearchInputInfant({Key? key}) : super(key: key);
 
-  Future<void> searchInfant(BuildContext context) async {
-    // Load static data from JSON file
-    final jsonString = await DefaultAssetBundle.of(context).loadString('assets/static_data.json');
-    final data = json.decode(jsonString);
+  @override
+  _SearchInputInfantState createState() => _SearchInputInfantState();
+}
 
-    // Navigate to InfantDetailsPage with the loaded data
+class _SearchInputInfantState extends State<SearchInputInfant> {
+  final TextEditingController trackingNumberController = TextEditingController();
+
+  @override
+  void dispose() {
+    trackingNumberController.dispose();
+    super.dispose();
+  }
+
+Future<void> searchInfant(BuildContext context, String patientNumber) async {
+  // Load static data from JSON file
+  final jsonString = await DefaultAssetBundle.of(context).loadString('assets/static_data.json');
+  final data = json.decode(jsonString);
+
+
+  // Check if the patientNumber exists in the data
+  final infantData = data['infant'];
+
+  if (infantData['tracking_number'] == patientNumber) {
+    // Navigate to InfantDetailsPage with the found data
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => InfantDetailsPage(data: data),
       ),
     );
+  } else {
+    // Show error dialog if infant data is not found
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: Text('Patient Number Not Found. Tracking Number: ${infantData['tracking_number']}, Entered Number: $patientNumber'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
+}
 
   Widget buildTextField(String label, TextEditingController controller) {
     return Padding(
@@ -68,11 +106,14 @@ class SearchInputInfant extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 16.0),
-                    buildTextField('Patient Number', TextEditingController()),
+                    buildTextField('Patient Number', trackingNumberController),
                     const SizedBox(height: 16.0),
                     Center(
                       child: ElevatedButton(
-                        onPressed: () => searchInfant(context),
+                        onPressed: () {
+                        final patientNumber = trackingNumberController.text;
+                        searchInfant(context, patientNumber);
+                        },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor: const Color(0xFF871818),
