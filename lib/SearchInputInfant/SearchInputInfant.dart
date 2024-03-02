@@ -81,6 +81,11 @@ Future<void> searchInfant(BuildContext context, String patientNumber) async {
       title: 'Search Input Infant',
       home: Scaffold(
         appBar: AppBar(
+          leading: BackButton(
+            onPressed: () {
+              Navigator.of(context).pop(); 
+              }
+          ),
           title: const Text(
             'Search Input Infant',
             style: TextStyle(

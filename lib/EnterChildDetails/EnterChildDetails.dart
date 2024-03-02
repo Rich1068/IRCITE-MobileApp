@@ -144,6 +144,7 @@ class _ChildDetailsFormState extends State<ChildDetailsForm> {
       appBar: AppBar(
         leading: BackButton(
             onPressed: () {
+              print('pressed');
               Navigator.of(context).pop(); 
               }
           ),
