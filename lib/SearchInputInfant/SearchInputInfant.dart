@@ -23,8 +23,8 @@ class _SearchInputInfantState extends State<SearchInputInfant> {
   }
 
 Future<void> searchInfant(BuildContext context, String patientNumber) async {
-  // Load static data from JSON file
-  final jsonString = await DefaultAssetBundle.of(context).loadString('assets/static_data.json');
+  // Load mock data from JSON file
+  final jsonString = await DefaultAssetBundle.of(context).loadString('assets/mock_data.json');
   final data = json.decode(jsonString);
 
 
