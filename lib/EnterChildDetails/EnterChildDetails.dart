@@ -1,3 +1,4 @@
+import 'package:carepathmobile/MainPage/MainPage.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:typed_data';
@@ -143,11 +144,10 @@ class _ChildDetailsFormState extends State<ChildDetailsForm> {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
-            onPressed: () {
-              print('pressed');
-              Navigator.of(context).pop(); 
+          onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) { return const MainPage();}));
               }
-          ),
+        ),
         title: const Text(
           'Enter Child Details',
           style: TextStyle(
