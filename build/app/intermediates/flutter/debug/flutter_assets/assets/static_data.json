@@ -1,0 +1,28 @@
+{
+    "infant": {
+      "name": "John Doe",
+      "tracking_number": "123456",
+      "weight": "3.5",
+      "length": "50",
+      "father_name": "John Doe Sr.",
+      "mother_name": "Jane Doe",
+      "contact_number": "123-456-7890"
+    },
+    "vaccine_taken": [
+      {
+        "vaccine_name": "Vaccine 1",
+        "administered_by": "Doctor 1",
+        "immunization_date": "2024-02-28"
+      },
+      {
+        "vaccine_name": "Vaccine 2",
+        "administered_by": "Doctor 2",
+        "immunization_date": "2024-03-15"
+      },
+      {
+        "vaccine_name": "Vaccine 3",
+        "administered_by": "Doctor 3",
+        "immunization_date": "2024-03-30"
+      }
+    ]
+  }
