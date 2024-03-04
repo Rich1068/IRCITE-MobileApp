@@ -46,7 +46,7 @@ class _MainPageState extends State<MainPage> {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            'assets/bg1.png',
+            'assets/bg1.jpg',
             fit: BoxFit.cover,
           ),
           Positioned(
