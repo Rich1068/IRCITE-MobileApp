@@ -1,0 +1,1 @@
+ C:\\IRCITE\\CarePath_Mobile-development\\.dart_tool\\flutter_build\\a57c558be94e4193c0446eccb6d31a20\\native_assets.yaml: 

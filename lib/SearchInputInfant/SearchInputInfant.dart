@@ -47,8 +47,8 @@ class _SearchInputInfantState extends State<SearchInputInfant> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Error'),
-            content: Text(
-                'Patient Number Not Found. Tracking Number: ${infantData['tracking_number']}, Entered Number: $patientNumber'),
+            content:const Text(
+                'Patient Number Not Found'),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK'),

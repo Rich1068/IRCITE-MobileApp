@@ -90,39 +90,54 @@ class InfantDetailsPage extends StatelessWidget {
                       // Adjust the padding to control the spacing
                       Container(
                         height: 0.5,
-                        child: Divider(),
+                        child: const Divider(),
                       ),
                       DataTable(
-                        columnSpacing: 8.0, // Adjust the column spacing
+                        columnSpacing: 9, // Adjust the column spacing
                         dataRowHeight: 40.0, // Adjust the height as needed
-                        columns: const [
+                        columns: [
                           DataColumn(
-                            label: Text(
-                              'Vaccine',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14.0,
-                                color: Color(0xFF016A52),
+                            label: Container(
+                              width: 75,
+                              child: Text(
+                                'Vaccine',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14.0,
+                                  color: Color(0xFF016A52),
+                                ),
+                                softWrap: true,
                               ),
                             ),
                           ),
                           DataColumn(
-                            label: Text(
-                              'Administered By',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14.0,
-                                color: Color(0xFF016A52),
+                            label: Container(
+                              width: 115,
+                              child: Text(
+                                'Administered By',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14.0,
+                                  color: Color(0xFF016A52),
+                                ),
+                                softWrap: true,
                               ),
                             ),
                           ),
                           DataColumn(
-                            label: Text(
-                              'Date (YYYY-MM-DD)',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14.0,
-                                color: Color(0xFF016A52),
+                            label: Container(
+                              width: 115,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Text(
+                                  'Date (YYYY-MM-DD)',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14.0,
+                                    color: Color(0xFF016A52),
+                                  ),
+                                  softWrap: true,
+                                ),
                               ),
                             ),
                           ),
