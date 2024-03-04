@@ -40,88 +40,88 @@ class _ChildDetailsFormState extends State<ChildDetailsForm> {
   Uint8List? qrImageData;
 
   void generateAndShowQR() async {
-  if (nameController.text.isEmpty ||
-      selectedDate == null ||
-      selectedGender.isEmpty ||
-      weightController.text.isEmpty) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Missing Required Fields'),
-          content: const Text('All fields marked with * are required.'),
-          actions: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
+    if (nameController.text.isEmpty ||
+        selectedDate == null ||
+        selectedGender.isEmpty ||
+        weightController.text.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Missing Required Fields'),
+            content: const Text('All fields marked with * are required.'),
+            actions: <Widget>[
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      // Ensure that non-required fields are not null but empty
+      final Map<String, String> dataMap = {
+        '1': nameController.text,
+        '2': "${selectedDate!.toLocal()}".split(' ')[0],
+        '3': selectedGender == 'Female' ? 'f' : 'm',
+        '4': weightController.text,
+        '5': lengthController.text,
+        '6': fatherNameController.text,
+        '7': motherNameController.text,
+        '8': contactNumberController.text,
+      };
+
+      String encodedData = '';
+      dataMap.forEach((key, value) {
+        encodedData += '$key=$value&';
+      });
+
+      // If the length is less than 80 characters, add the extra data
+      // If the length is less than 80 characters, add the extra data
+      if (encodedData.length < 78) {
+        // Calculate the number of '1's needed
+        int numberOfOnes = 78 - encodedData.length;
+
+        // Use the String.fromCharCodes constructor to create a string with the specified number of '1's
+        String onesString = String.fromCharCodes(
+            List<int>.generate(numberOfOnes, (index) => '1'.codeUnitAt(0)));
+
+        // Append the generated string to encodedData
+        encodedData += '&9=$onesString';
+      }
+
+      final ByteData? byteData = await generateQrImage(encodedData);
+
+      setState(() {
+        qrImageData = byteData?.buffer.asUint8List();
+      });
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Generated QR Code'),
+            content: Container(
+              child: qrImageData != null
+                  ? Image.memory(qrImageData!)
+                  : const SizedBox.shrink(),
             ),
-          ],
-        );
-      },
-    );
-  } else {
-    // Ensure that non-required fields are not null but empty
-    final Map<String, String> dataMap = {
-      '1': nameController.text,
-      '2': "${selectedDate!.toLocal()}".split(' ')[0],
-      '3': selectedGender == 'Female' ? 'f' : 'm',  
-      '4': weightController.text,
-      '5': lengthController.text,
-      '6': fatherNameController.text,
-      '7': motherNameController.text,
-      '8': contactNumberController.text,
-    };
-
-    String encodedData = '';
-    dataMap.forEach((key, value) {
-      encodedData += '$key=$value&';
-    });
-
-    // If the length is less than 80 characters, add the extra data
-    // If the length is less than 80 characters, add the extra data
-    if (encodedData.length < 78) {
-      // Calculate the number of '1's needed
-      int numberOfOnes = 78 - encodedData.length;
-
-      // Use the String.fromCharCodes constructor to create a string with the specified number of '1's
-      String onesString = String.fromCharCodes(List<int>.generate(numberOfOnes, (index) => '1'.codeUnitAt(0)));
-
-      // Append the generated string to encodedData
-      encodedData += '&9=$onesString';
+            actions: <Widget>[
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
     }
-
-    final ByteData? byteData = await generateQrImage(encodedData);
-
-    setState(() {
-      qrImageData = byteData?.buffer.asUint8List();
-    });
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Generated QR Code'),
-          content: Container(
-            child: qrImageData != null ? Image.memory(qrImageData!) : const SizedBox.shrink(),
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
   }
-}
-
-
-
 
   Future<ByteData?> generateQrImage(String data) async {
     final QrPainter painter = QrPainter(
@@ -143,11 +143,12 @@ class _ChildDetailsFormState extends State<ChildDetailsForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
-          onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) { return const MainPage();}));
-              }
-        ),
+        backgroundColor: const Color(0xFF016A52),
+        leading: BackButton(onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const MainPage();
+          }));
+        }),
         title: const Text(
           'Enter Child Details',
           style: TextStyle(
@@ -205,7 +206,8 @@ class _ChildDetailsFormState extends State<ChildDetailsForm> {
                   showDatePicker(
                     context: context,
                     initialDate: now,
-                    firstDate: DateTime(now.year - 1), // Allowing dates from one year ago
+                    firstDate: DateTime(
+                        now.year - 1), // Allowing dates from one year ago
                     lastDate: now,
                     selectableDayPredicate: (DateTime day) {
                       // Disable future dates (including today)
@@ -231,7 +233,9 @@ class _ChildDetailsFormState extends State<ChildDetailsForm> {
                       ),
                     ),
                     controller: TextEditingController(
-                      text: selectedDate != null ? "${selectedDate!.toLocal()}".split(' ')[0] : '',
+                      text: selectedDate != null
+                          ? "${selectedDate!.toLocal()}".split(' ')[0]
+                          : '',
                     ),
                   ),
                 ),
@@ -244,7 +248,8 @@ class _ChildDetailsFormState extends State<ChildDetailsForm> {
                   labelStyle: TextStyle(color: Colors.red),
                   border: OutlineInputBorder(),
                 ),
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
               ),
               const SizedBox(height: 16.0),
               TextFormField(
@@ -253,7 +258,8 @@ class _ChildDetailsFormState extends State<ChildDetailsForm> {
                   labelText: 'Length (cm)',
                   border: OutlineInputBorder(),
                 ),
-                keyboardType: const TextInputType.numberWithOptions(decimal: false),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: false),
               ),
               const SizedBox(height: 16.0),
               TextField(
@@ -294,7 +300,8 @@ class _ChildDetailsFormState extends State<ChildDetailsForm> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: const Text('Missing Required Fields'),
-                            content: const Text('All fields marked with * are required.'),
+                            content: const Text(
+                                'All fields marked with * are required.'),
                             actions: <Widget>[
                               ElevatedButton(
                                 onPressed: () {
@@ -311,7 +318,8 @@ class _ChildDetailsFormState extends State<ChildDetailsForm> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white, backgroundColor: const Color(0xFF871818),
+                    foregroundColor: Colors.white,
+                    backgroundColor: const Color(0xFF016A52),
                   ),
                   child: const Text('Submit & Generate QR'),
                 ),

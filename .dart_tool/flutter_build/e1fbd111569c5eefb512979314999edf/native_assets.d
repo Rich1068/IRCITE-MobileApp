@@ -1,0 +1,1 @@
+ C:\\Users\\ADMIN\\IRCITE-MobileApp\\.dart_tool\\flutter_build\\e1fbd111569c5eefb512979314999edf\\native_assets.yaml: 

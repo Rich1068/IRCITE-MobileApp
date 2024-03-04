@@ -1,4 +1,4 @@
-#Sat Mar 02 15:14:05 CST 2024
-base.0=C\:\\IRCITE\\CarePath_Mobile-development\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+#Mon Mar 04 16:03:42 CST 2024
+base.0=C\:\\Users\\ADMIN\\IRCITE-MobileApp\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
